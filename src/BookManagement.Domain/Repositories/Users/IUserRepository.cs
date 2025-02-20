@@ -8,6 +8,8 @@ namespace BookManagement.Domain.Repositories.Users;
 /// </summary>
 public interface IUserRepository
 {
+    Task<IEnumerable<User>> SearchAsync(string email, string name, int? roleId, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Retrieves a user by their unique identifier.
     /// </summary>
@@ -15,6 +17,8 @@ public interface IUserRepository
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>The user corresponding to the given identifier.</returns>
     Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    Task<User> GetByIdWithRolesAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a user by their email address.
@@ -37,17 +41,23 @@ public interface IUserRepository
     /// </summary>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A list of all users.</returns>
-    Task<List<User>> GetUsersAsync(CancellationToken cancellationToken = default);
+    Task<List<User>> GetAllAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds a new user to the repository.
     /// </summary>
-    /// <param name="member">The user entity to add.</param>
-    void Add(User member);
+    /// <param name="user">The user entity to add.</param>
+    Task AddAsync(User user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing user in the repository.
     /// </summary>
-    /// <param name="member">The user entity to update.</param>
-    void Update(User member);
+    /// <param name="user">The user entity to update.</param>
+    Task UpdateAsync(User user, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes an existing user from the repository.
+    /// </summary>
+    /// <param name="user">The user entity to delete.</param>
+    Task DeleteAsync(User user, CancellationToken cancellationToken = default);
 }

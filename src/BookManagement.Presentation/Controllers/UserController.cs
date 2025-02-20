@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Users.Commands.CreateUser;
+﻿using BookManagement.Application.Users.Commands.RegisterUser;
 using BookManagement.Application.Users.Commands.Login;
 using BookManagement.Application.Users.Queries.GetUserById;
 using BookManagement.Presentation.Abstractions;
@@ -59,7 +59,7 @@ public sealed class UsersController(ISender sender) : ApiController(sender)
         [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new CreateUserCommand(
+        var command = new RegisterUserCommand(
             request.Email,
             request.Password,
             request.FirstName,

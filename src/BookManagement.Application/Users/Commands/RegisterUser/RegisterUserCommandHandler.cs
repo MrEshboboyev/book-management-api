@@ -7,29 +7,29 @@ using BookManagement.Domain.Entities.Users;
 using BookManagement.Domain.Repositories.Users;
 using BookManagement.Domain.ValueObjects.Users;
 
-namespace BookManagement.Application.Users.Commands.CreateUser;
+namespace BookManagement.Application.Users.Commands.RegisterUser;
 
 /// <summary>
-/// Handles the command to create a new user.
+/// Handles the command to Register a new user.
 /// </summary>
-internal sealed class CreateUserCommandHandler(
+internal sealed class RegisterUserCommandHandler(
     IUserRepository userRepository,
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher)
-    : ICommandHandler<CreateUserCommand, Guid>
+    : ICommandHandler<RegisterUserCommand, Guid>
 {
     /// <summary>
-    /// Processes the CreateUserCommand and creates a new user.
+    /// Processes the RegisterUserCommand and Registers a new user.
     /// </summary>
     /// <param name="request">The command request containing user details.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A Result containing the unique identifier of the created user or an error.</returns>
-    public async Task<Result<Guid>> Handle(CreateUserCommand request,
+    /// <returns>A Result containing the unique identifier of the Created user or an error.</returns>
+    public async Task<Result<Guid>> Handle(RegisterUserCommand request,
         CancellationToken cancellationToken)
     {
         #region Checking Email is Unique
 
-        // Validate and create the Email value object
+        // Validate and Register the Email value object
         Result<Email> emailResult = Email.Create(request.Email);
 
         // Check if the email is already in use
@@ -42,20 +42,20 @@ internal sealed class CreateUserCommandHandler(
 
         #region Prepare value objects
 
-        // Validate and create the FirstName value object
-        Result<FirstName> createFirstNameResult = FirstName.Create(request.FirstName);
-        if (createFirstNameResult.IsFailure)
+        // Validate and Register the FirstName value object
+        Result<FirstName> RegisterFirstNameResult = FirstName.Create(request.FirstName);
+        if (RegisterFirstNameResult.IsFailure)
         {
             return Result.Failure<Guid>(
-                createFirstNameResult.Error);
+                RegisterFirstNameResult.Error);
         }
 
-        // Validate and create the LastName value object
-        Result<LastName> createLastNameResult = LastName.Create(request.LastName);
-        if (createLastNameResult.IsFailure)
+        // Validate and Register the LastName value object
+        Result<LastName> RegisterLastNameResult = LastName.Create(request.LastName);
+        if (RegisterLastNameResult.IsFailure)
         {
             return Result.Failure<Guid>(
-                createFirstNameResult.Error);
+                RegisterFirstNameResult.Error);
         }
 
         #endregion
@@ -67,27 +67,27 @@ internal sealed class CreateUserCommandHandler(
 
         #endregion
 
-        #region Create new user
+        #region Register new user
 
-        // Create a new User entity with the provided details
+        // Register a new User entity with the provided details
         var user = User.Create(
             Guid.NewGuid(),
             emailResult.Value,
             passwordHash,
-            createFirstNameResult.Value,
-            createLastNameResult.Value);
+            RegisterFirstNameResult.Value,
+            RegisterLastNameResult.Value);
 
         #endregion
 
         #region Add and Update database
 
         // Add the new user to the repository and save changes
-        userRepository.Add(user);
+        await userRepository.AddAsync(user, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         #endregion
 
-        // Return the unique identifier of the newly created user
+        // Return the unique identifier of the newly Registerd user
         return Result.Success(user.Id);
     }
 }

@@ -1,19 +1,19 @@
 ﻿using FluentValidation;
 using BookManagement.Domain.ValueObjects.Users;
 
-namespace BookManagement.Application.Users.Commands.CreateUser;
+namespace BookManagement.Application.Users.Commands.RegisterUser;
 
 /// <summary>
-/// Validator for the CreateUserCommand.
+/// Validator for the RegisterUserCommand.
 /// Ensures that all fields of the command are valid.
 /// </summary>
-internal class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+internal class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     /// <summary>
-    /// Initializes a new instance of the CreateUserCommandValidator class.
-    /// Defines validation rules for the CreateUserCommand.
+    /// Initializes a new instance of the RegisterUserCommandValidator class.
+    /// Defines validation rules for the RegisterUserCommand.
     /// </summary>
-    public CreateUserCommandValidator()
+    public RegisterUserCommandValidator()
     {
         // Ensure the Email field is not empty
         RuleFor(x => x.Email).NotEmpty()

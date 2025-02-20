@@ -1,53 +1,37 @@
 ﻿using BookManagement.Application.Abstractions.Messaging;
+using BookManagement.Application.Users.Queries.Common.Factories;
+using BookManagement.Application.Users.Queries.Common.Responses;
 using BookManagement.Domain.Errors;
 using BookManagement.Domain.Repositories.Users;
 using BookManagement.Domain.Shared;
 
 namespace BookManagement.Application.Users.Queries.GetUserById;
 
-/// <summary>
-/// Handles the query to get a user by their unique identifier.
-/// </summary>
 internal sealed class GetUserByIdQueryHandler(IUserRepository userRepository)
     : IQueryHandler<GetUserByIdQuery, UserResponse>
 {
-    /// <summary>
-    /// Processes the GetUserByIdQuery and retrieves the user details.
-    /// </summary>
-    /// <param name="request">The query request containing the user's unique identifier.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A Result containing the user details if found, or an error.</returns>
-    public async Task<Result<UserResponse>> Handle(GetUserByIdQuery request,
+    public async Task<Result<UserResponse>> Handle(
+        GetUserByIdQuery request,
         CancellationToken cancellationToken)
     {
-        #region Get User By Id
+        var userId = request.UserId;
+        
+        // Fetch the user from the repository
+        var user = await userRepository.GetByIdAsync(userId, cancellationToken);   
 
-        // Retrieve the user by their unique identifier
-        var user = await userRepository.GetByIdAsync(
-            request.UserId,
-            cancellationToken);
-
-        // Check if the user is found
+        // If user is not found, return a failure result
         if (user is null)
         {
             return Result.Failure<UserResponse>(
-                DomainErrors.User.NotFound(request.UserId));
+                DomainErrors.User.NotFound(userId));
         }
-
+        
+        #region Prepare response
+        
+        var response = UserResponseFactory.Create(user);
+        
         #endregion
 
-        #region Prepare Response
-
-        // Prepare the response with the user's details
-        var response = new UserResponse(
-            user.Id,
-            user.Email.Value,
-            user.FirstName.Value,
-            user.LastName.Value);
-
-        #endregion
-
-        // Return the user details as a successful result
         return Result.Success(response);
     }
 }
