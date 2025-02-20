@@ -1,6 +1,5 @@
 ﻿using BookManagement.Application.Users.Commands.RegisterUser;
 using BookManagement.Application.Users.Commands.Login;
-using BookManagement.Application.Users.Queries.GetUserById;
 using BookManagement.Presentation.Abstractions;
 using BookManagement.Presentation.Contracts.Users;
 using MediatR;
@@ -9,27 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookManagement.Presentation.Controllers;
 
 /// <summary>
-/// API Controller for managing user-related operations.
+/// API Controller for managing auth-related operations.
 /// </summary>
-[Route("api/users")]
-public sealed class UsersController(ISender sender) : ApiController(sender)
+[Route("api/auth")]
+public sealed class AuthController(ISender sender) : ApiController(sender)
 {
-    /// <summary>
-    /// Retrieves the details of a user by their unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the user.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>An IActionResult containing the user details if found, or an error message.</returns>
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
-    {
-        var query = new GetUserByIdQuery(id);
-
-        var response = await Sender.Send(query, cancellationToken);
-
-        return response.IsSuccess ? Ok(response.Value) : NotFound(response.Error);
-    }
-
     /// <summary>
     /// Logs in a user by validating their credentials and generating a token.
     /// </summary>
@@ -71,9 +54,6 @@ public sealed class UsersController(ISender sender) : ApiController(sender)
             return HandleFailure(result);
         }
 
-        return CreatedAtAction(
-            nameof(GetUserById),
-            new { id = result.Value },
-            result.Value);
+        return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
     }
 }

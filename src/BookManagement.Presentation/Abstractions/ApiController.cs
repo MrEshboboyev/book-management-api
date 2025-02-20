@@ -1,7 +1,8 @@
-﻿using BookManagement.Domain.Shared;
+﻿using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BookManagement.Domain.Shared;
 
 namespace BookManagement.Presentation.Abstractions;
 
@@ -25,6 +26,11 @@ public abstract class ApiController : ControllerBase
         Sender = sender;
     }
 
+    protected Guid GetUserId() =>
+        Guid.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!
+                .Value);
+
     /// <summary> 
     /// Handles failure scenarios and returns appropriate HTTP responses. 
     /// </summary> 
@@ -46,8 +52,6 @@ public abstract class ApiController : ControllerBase
                     StatusCodes.Status400BadRequest,
                     result.Error))
         };
-    
-    #region Helpers
 
     /// <summary> 
     /// Creates a ProblemDetails object for detailed error responses. 
@@ -68,14 +72,12 @@ public abstract class ApiController : ControllerBase
             Type = error.Code,
             Detail = error.Message,
             Status = status,
-            Extensions = 
-            { 
+            Extensions =
+            {
                 {
-                    nameof(errors), 
-                    errors 
-                } 
+                    nameof(errors),
+                    errors
+                }
             }
         };
-    
-    #endregion
 }
