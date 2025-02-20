@@ -64,7 +64,8 @@ public sealed class Book : AggregateRoot, IAuditableEntity
 
         book.RaiseDomainEvent(new BookCreatedDomainEvent(
             Guid.NewGuid(),
-            book.Id));
+            book.Id,
+            title.Value));
 
         return Result.Success(book);
     }

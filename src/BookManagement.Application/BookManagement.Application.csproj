@@ -15,10 +15,4 @@
     <ProjectReference Include="..\BookManagement.Domain\BookManagement.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Books\Commands\" />
-    <Folder Include="Books\Events\" />
-    <Folder Include="Books\Queries\" />
-  </ItemGroup>
-
 </Project>

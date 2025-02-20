@@ -2,4 +2,5 @@
 
 public sealed record BookCreatedDomainEvent(
     Guid Id, 
-    Guid BookId) : DomainEvent(Id);
+    Guid BookId, 
+    string Title) : DomainEvent(Id);

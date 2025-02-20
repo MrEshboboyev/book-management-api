@@ -75,9 +75,17 @@ public static class DomainErrors
 
     public static class Book
     {
+        public static readonly Func<string, Error> AlreadyExists = titleName => new Error(
+            "Book.AlreadyExists",
+            $"The book with the title '{titleName}' already exists.");
+
         public static readonly Error InvalidData = new(
             "Book.InvalidData",
             "The book data provided is invalid.");
+
+        public static readonly Func<Guid, Error> NotFound = id => new Error(
+            "Book.NotFound",
+            $"The book with the identifier {id} was not found.");
 
         public static readonly Error AlreadyDeleted = new(
             "Book.AlreadyDeleted",
