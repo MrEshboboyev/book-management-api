@@ -1,7 +1,7 @@
-﻿using BookManagement.Domain.Entities;
-using BookManagement.Persistence.Users.Constants;
+﻿using BookManagement.Persistence.Users.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Permission = BookManagement.Domain.Entities.Users.Permission;
 
 namespace BookManagement.Persistence.Users.Configurations.Roles.Permissions;
 
@@ -20,7 +20,7 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
 
         // Seed initial data
         IEnumerable<Permission> permissions = Enum
-            .GetValues<Domain.Enums.Permission>()
+            .GetValues<Domain.Enums.Users.Permission>()
             .Select(p => new Permission
             {
                 Id = (int)p,

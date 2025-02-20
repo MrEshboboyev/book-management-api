@@ -1,6 +1,6 @@
-﻿using BookManagement.Domain.Entities;
-using BookManagement.Domain.Repositories;
-using BookManagement.Domain.ValueObjects;
+﻿using BookManagement.Domain.Entities.Users;
+using BookManagement.Domain.Repositories.Users;
+using BookManagement.Domain.ValueObjects.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookManagement.Persistence.Repositories;

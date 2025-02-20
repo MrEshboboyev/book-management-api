@@ -1,7 +1,7 @@
-﻿using BookManagement.Domain.Entities;
+﻿using BookManagement.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Permission = BookManagement.Domain.Enums.Permission;
+using Permission = BookManagement.Domain.Enums.Users.Permission;
 
 namespace BookManagement.Persistence.Users.Configurations.Roles.Permissions;
 

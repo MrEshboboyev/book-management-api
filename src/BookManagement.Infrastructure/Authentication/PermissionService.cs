@@ -1,4 +1,4 @@
-﻿using BookManagement.Domain.Entities;
+﻿using BookManagement.Domain.Entities.Users;
 using BookManagement.Persistence;
 using Microsoft.EntityFrameworkCore;
 

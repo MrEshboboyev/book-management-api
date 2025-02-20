@@ -1,5 +1,5 @@
 ﻿using BookManagement.Application.Abstractions.Security;
-using BookManagement.Domain.Entities;
+using BookManagement.Domain.Entities.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

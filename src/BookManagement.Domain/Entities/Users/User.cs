@@ -1,8 +1,8 @@
-﻿using BookManagement.Domain.Events;
+﻿using BookManagement.Domain.Events.Users;
 using BookManagement.Domain.Primitives;
-using BookManagement.Domain.ValueObjects;
+using BookManagement.Domain.ValueObjects.Users;
 
-namespace BookManagement.Domain.Entities;
+namespace BookManagement.Domain.Entities.Users;
 
 /// <summary> 
 /// Represents a user in the system. 
@@ -110,4 +110,3 @@ public sealed class User : AggregateRoot, IAuditableEntity
     
     #endregion
 }
-

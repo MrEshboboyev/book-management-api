@@ -1,4 +1,4 @@
-﻿namespace BookManagement.Domain.Entities;
+﻿namespace BookManagement.Domain.Entities.Users;
 
 /// <summary> 
 /// Represents the relationship between roles and permissions. 

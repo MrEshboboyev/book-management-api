@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using BookManagement.Domain.ValueObjects;
+using BookManagement.Domain.ValueObjects.Users;
 
 namespace BookManagement.Application.Users.Commands.CreateUser;
 

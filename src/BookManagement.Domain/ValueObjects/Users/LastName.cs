@@ -2,7 +2,7 @@
 using BookManagement.Domain.Primitives;
 using BookManagement.Domain.Shared;
 
-namespace BookManagement.Domain.ValueObjects;
+namespace BookManagement.Domain.ValueObjects.Users;
 
 /// <summary> 
 /// Represents an email value object. 

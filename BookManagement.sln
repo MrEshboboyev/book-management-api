@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6D4B4CD3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20DE93E8-962A-4CA6-8655-36DB9A3AD55C}"
 	ProjectSection(SolutionItems) = preProject
-		Solution Items\Directory.Packages.props = Solution Items\Directory.Packages.props
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookManagement.App", "src\BookManagement.App\BookManagement.App.csproj", "{03D85F52-E7F6-8397-7F7D-B7975EDFA9B1}"

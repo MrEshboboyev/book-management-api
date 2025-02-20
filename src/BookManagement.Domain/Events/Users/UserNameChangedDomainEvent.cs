@@ -1,4 +1,4 @@
-﻿namespace BookManagement.Domain.Events;
+﻿namespace BookManagement.Domain.Events.Users;
 
 /// <summary> 
 /// Event raised when a user's name is changed.

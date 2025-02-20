@@ -1,4 +1,4 @@
-﻿using BookManagement.Domain.Entities;
+﻿using BookManagement.Domain.Entities.Users;
 
 namespace BookManagement.Application.Abstractions.Security;
 

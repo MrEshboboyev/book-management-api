@@ -1,4 +1,4 @@
-﻿namespace BookManagement.Domain.Enums;
+﻿namespace BookManagement.Domain.Enums.Users;
 
 /// <summary> 
 /// Represents different permissions that can be assigned to roles. 

@@ -1,4 +1,5 @@
 ﻿using BookManagement.Domain.Shared;
+using BookManagement.Domain.ValueObjects.Books;
 
 namespace BookManagement.Domain.Errors;
 
@@ -63,9 +64,59 @@ public static class DomainErrors
             "LastName.TooLong",
             "Last name is too long");
     }
-    
+
     #endregion
+
+    #endregion
+
+    #region Book
+
+    #region Entities
+
+    public static class Book
+    {
+        public static readonly Error InvalidData = new(
+            "Book.InvalidData",
+            "The book data provided is invalid.");
+
+        public static readonly Error AlreadyDeleted = new(
+            "Book.AlreadyDeleted",
+            "The book is already deleted.");
+    }
+
+    #endregion
+
+    #region Value Objects
     
+    public static class Author
+    {
+        public static readonly Error Empty = new(
+            "Author.Empty",
+            "Author name is empty");
+        public static readonly Error TooLong = new(
+            "Author.TooLong",
+            "Author name is too long");
+    }
+
+    public static class PublicationYear
+    {
+        public static readonly Error Invalid = new(
+            "PublicationYear.Invalid",
+            "Publication year is invalid");
+    }
+
+    public static class Title
+    {
+        public static readonly Error Empty = new(
+            "Title.Empty",
+            "Title is empty");
+        public static readonly Error TooLong = new(
+            "Title.TooLong",
+            "Title is too long");
+    }
+
+    #endregion
+
     #endregion
 }
 

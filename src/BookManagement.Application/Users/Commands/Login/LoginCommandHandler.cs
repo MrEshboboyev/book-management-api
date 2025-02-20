@@ -1,9 +1,9 @@
 ﻿using BookManagement.Application.Abstractions.Security;
 using BookManagement.Application.Abstractions.Messaging;
 using BookManagement.Domain.Errors;
-using BookManagement.Domain.Repositories;
 using BookManagement.Domain.Shared;
-using BookManagement.Domain.ValueObjects;
+using BookManagement.Domain.Repositories.Users;
+using BookManagement.Domain.ValueObjects.Users;
 
 namespace BookManagement.Application.Users.Commands.Login;
 

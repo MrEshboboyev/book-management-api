@@ -1,4 +1,4 @@
-﻿namespace BookManagement.Domain.Entities;
+﻿namespace BookManagement.Domain.Entities.Users;
 
 /// <summary> 
 /// Represents a user role in the system. 

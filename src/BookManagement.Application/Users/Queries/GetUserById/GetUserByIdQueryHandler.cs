@@ -1,6 +1,6 @@
 ﻿using BookManagement.Application.Abstractions.Messaging;
 using BookManagement.Domain.Errors;
-using BookManagement.Domain.Repositories;
+using BookManagement.Domain.Repositories.Users;
 using BookManagement.Domain.Shared;
 
 namespace BookManagement.Application.Users.Queries.GetUserById;

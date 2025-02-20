@@ -1,7 +1,7 @@
-﻿using BookManagement.Domain.Entities;
-using BookManagement.Domain.ValueObjects;
+﻿using BookManagement.Domain.Entities.Users;
+using BookManagement.Domain.ValueObjects.Users;
 
-namespace BookManagement.Domain.Repositories;
+namespace BookManagement.Domain.Repositories.Users;
 
 /// <summary>
 /// Repository interface for managing user data access.
