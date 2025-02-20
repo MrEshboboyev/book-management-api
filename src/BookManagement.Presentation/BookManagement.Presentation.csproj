@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc"/>
-    <PackageReference Include="System.Net.Http"/>
-    <PackageReference Include="System.Security.Cryptography.Xml"/>
-    <PackageReference Include="System.Text.RegularExpressions"/>
+    <PackageReference Include="Microsoft.AspNetCore.Http" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" />
+    <PackageReference Include="System.Net.Http" />
+    <PackageReference Include="System.Security.Cryptography.Xml" />
+    <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
 
   <ItemGroup>

@@ -37,7 +37,7 @@ public sealed class AuthController(ISender sender) : ApiController(sender)
     /// <param name="request">The registration request containing the user's details.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An IActionResult containing the new user's ID if successful, or an error message.</returns>
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)

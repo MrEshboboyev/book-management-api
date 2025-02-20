@@ -8,11 +8,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookManagement.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDefaultTables : Migration
+    public partial class Initial_Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    PublicationYear = table.Column<int>(type: "int", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ViewsCount = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "OutboxMessageConsumers",
                 columns: table => new
@@ -138,7 +156,14 @@ namespace BookManagement.Persistence.Migrations
                 values: new object[,]
                 {
                     { 1, "ReadUser" },
-                    { 2, "UpdateUser" }
+                    { 2, "UpdateUser" },
+                    { 3, "AddBook" },
+                    { 4, "AddBooksBulk" },
+                    { 5, "UpdateBook" },
+                    { 6, "SoftDeleteBook" },
+                    { 7, "SoftDeleteBooksBulk" },
+                    { 8, "GetBookDetails" },
+                    { 9, "GetBooksList" }
                 });
 
             migrationBuilder.InsertData(
@@ -152,7 +177,14 @@ namespace BookManagement.Persistence.Migrations
                 values: new object[,]
                 {
                     { 1, 1 },
-                    { 2, 1 }
+                    { 2, 1 },
+                    { 3, 1 },
+                    { 4, 1 },
+                    { 5, 1 },
+                    { 6, 1 },
+                    { 7, 1 },
+                    { 8, 1 },
+                    { 9, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -176,6 +208,9 @@ namespace BookManagement.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Books");
+
             migrationBuilder.DropTable(
                 name: "OutboxMessageConsumers");
 

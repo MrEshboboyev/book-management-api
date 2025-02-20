@@ -23,21 +23,21 @@ internal sealed class AddBooksBulkCommandHandler(
 
         foreach (var (title, publicationYear, authorName) in request.Books)
         {
-            // Check if book already exists
-            if (await bookRepository.ExistsByTitleAsync(title, cancellationToken))
-            {
-                return Result.Failure<List<Guid>>(
-                    DomainErrors.Book.AlreadyExists(title));
-            }
-
-            #region Prepare value objects with create methods
-
             var titleResult = Title.Create(title);
             if (titleResult.IsFailure)
             {
                 return Result.Failure<List<Guid>>(
                     titleResult.Error);
             }
+
+            // Check if book already exists
+            if (await bookRepository.ExistsByTitleAsync(titleResult.Value, cancellationToken))
+            {
+                return Result.Failure<List<Guid>>(
+                    DomainErrors.Book.AlreadyExists(title));
+            }
+
+            #region Prepare value objects with create methods
 
             var authorResult = Author.Create(authorName);
             if (authorResult.IsFailure)

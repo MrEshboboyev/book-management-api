@@ -1,5 +1,7 @@
-﻿using BookManagement.Domain.Events.Users;
+﻿using BookManagement.Domain.Errors;
+using BookManagement.Domain.Events.Users;
 using BookManagement.Domain.Primitives;
+using BookManagement.Domain.Shared;
 using BookManagement.Domain.ValueObjects.Users;
 
 namespace BookManagement.Domain.Entities.Users;
@@ -9,8 +11,14 @@ namespace BookManagement.Domain.Entities.Users;
 /// </summary>
 public sealed class User : AggregateRoot, IAuditableEntity
 {
+    #region Private fields
+
+    private readonly List<Role> _roles = [];
+
+    #endregion
+
     #region Constructors 
-    
+
     private User(
         Guid id,
         Email email,
@@ -39,7 +47,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
     public Email Email { get; set; }
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
-    public ICollection<Role> Roles { get; set; }
+    public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
     
     #endregion
     
@@ -53,8 +61,8 @@ public sealed class User : AggregateRoot, IAuditableEntity
         Email email,
         string passwordHash,
         FirstName firstName,
-        LastName lastName
-        )
+        LastName lastName,
+        Role role)
     {
         #region Create new User
         
@@ -64,11 +72,13 @@ public sealed class User : AggregateRoot, IAuditableEntity
             passwordHash,
             firstName,
             lastName);
-        
+
         #endregion
-        
+
+        user.AssignRole(role);
+
         #region Domain Events
-        
+
         user.RaiseDomainEvent(new UserRegisteredDomainEvent(
             Guid.NewGuid(),
             user.Id));
@@ -107,6 +117,53 @@ public sealed class User : AggregateRoot, IAuditableEntity
         
         #endregion
     }
-    
+
+    #endregion
+
+    #region Role related
+
+    public Result AssignRole(Role role)
+    {
+        if (string.IsNullOrWhiteSpace(role.Name))
+        {
+            return Result.Failure(
+                DomainErrors.User.InvalidRoleName);
+        }
+
+        if (!IsInRole(role))
+            _roles.Add(role);
+
+        return Result.Success();
+    }
+
+    public Result RemoveRole(Role role)
+    {
+        #region Validate role
+
+        if (string.IsNullOrWhiteSpace(role.Name))
+        {
+            return Result.Failure(
+                DomainErrors.User.InvalidRoleName);
+        }
+
+        if (!IsInRole(role))
+        {
+            return Result.Failure(
+                DomainErrors.User.RoleNotAssigned(role.Id));
+        }
+
+        #endregion
+
+        #region Remove role
+
+        _roles.Remove(role);
+
+        #endregion
+
+        return Result.Success();
+    }
+
+    public bool IsInRole(Role role) => _roles.Contains(role);
+
     #endregion
 }

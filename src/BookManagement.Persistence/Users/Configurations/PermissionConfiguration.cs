@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Permission = BookManagement.Domain.Entities.Users.Permission;
 
-namespace BookManagement.Persistence.Users.Configurations.Roles.Permissions;
+namespace BookManagement.Persistence.Users.Configurations;
 
 /// <summary> 
 /// Configures the Permission entity for Entity Framework Core. 

@@ -12,5 +12,5 @@ public interface IJwtProvider
     /// </summary>
     /// <param name="user">The user for whom the token is being generated.</param>
     /// <returns>A JWT as a string.</returns>
-    string Generate(User user);
+    Task<string> GenerateAsync(User user);
 }

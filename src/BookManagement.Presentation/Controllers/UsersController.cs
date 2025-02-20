@@ -11,7 +11,6 @@ namespace BookManagement.Presentation.Controllers;
 /// API Controller for managing user-related operations.
 /// </summary>
 [Route("api/users")]
-[HasPermission(Permission.ReadUser)]
 public sealed class UsersController(ISender sender) : ApiController(sender)
 {
     /// <summary>
@@ -20,7 +19,8 @@ public sealed class UsersController(ISender sender) : ApiController(sender)
     /// <param name="id">The unique identifier of the user.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An IActionResult containing the user details if found, or an error message.</returns>
-    [HttpGet("{id:guid}")]
+    [HasPermission(Permission.ReadUser)]
+    [HttpGet]
     public async Task<IActionResult> GetCurrentUser(CancellationToken cancellationToken)
     {
         var query = new GetUserByIdQuery(GetUserId());

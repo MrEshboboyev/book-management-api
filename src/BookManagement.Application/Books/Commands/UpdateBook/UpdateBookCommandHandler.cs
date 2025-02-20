@@ -26,7 +26,14 @@ internal sealed class UpdateBookCommandHandler(
             return Result.Failure(DomainErrors.Book.NotFound(bookId));
         }
 
-        var bookExists = await bookRepository.ExistsByTitleAsync(title, cancellationToken);
+        var titleResult = Title.Create(title);
+        if (titleResult.IsFailure)
+        {
+            return Result.Failure<Guid>(
+                titleResult.Error);
+        }
+
+        var bookExists = await bookRepository.ExistsByTitleAsync(titleResult.Value, cancellationToken);
         if (bookExists)
         {
             return Result.Failure(
@@ -34,13 +41,6 @@ internal sealed class UpdateBookCommandHandler(
         }
 
         #region Prepare value objects with create methods
-
-        var titleResult = Title.Create(title);
-        if (titleResult.IsFailure)
-        {
-            return Result.Failure<Guid>(
-                titleResult.Error);
-        }
 
         var authorResult = Author.Create(authorName);
         if (authorResult.IsFailure)

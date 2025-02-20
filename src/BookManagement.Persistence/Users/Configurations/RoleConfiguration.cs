@@ -3,7 +3,7 @@ using BookManagement.Persistence.Users.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BookManagement.Persistence.Users.Configurations.Roles;
+namespace BookManagement.Persistence.Users.Configurations;
 
 /// <summary> 
 /// Configures the Role entity for Entity Framework Core. 

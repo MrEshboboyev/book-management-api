@@ -21,21 +21,21 @@ internal sealed class AddBookCommandHandler(
     {
         var (title, publicationYear, authorName) = request;
 
-        // Check if book already exists
-        if (await bookRepository.ExistsByTitleAsync(title, cancellationToken))
-        {
-            return Result.Failure<Guid>(
-                DomainErrors.Book.AlreadyExists(title));
-        }
-
-        #region Prepare value objects with create methods
-
         var titleResult = Title.Create(title);
         if (titleResult.IsFailure)
         {
             return Result.Failure<Guid>(
                 titleResult.Error);
         }
+
+        // Check if book already exists
+        if (await bookRepository.ExistsByTitleAsync(titleResult.Value, cancellationToken))
+        {
+            return Result.Failure<Guid>(
+                DomainErrors.Book.AlreadyExists(title));
+        }
+
+        #region Prepare value objects with create methods
 
         var authorResult = Author.Create(authorName);
         if (authorResult.IsFailure)

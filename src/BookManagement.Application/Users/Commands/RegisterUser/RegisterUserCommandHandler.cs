@@ -14,6 +14,7 @@ namespace BookManagement.Application.Users.Commands.RegisterUser;
 /// </summary>
 internal sealed class RegisterUserCommandHandler(
     IUserRepository userRepository,
+    IRoleRepository roleRepository,
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher)
     : ICommandHandler<RegisterUserCommand, Guid>
@@ -42,20 +43,31 @@ internal sealed class RegisterUserCommandHandler(
 
         #region Prepare value objects
 
-        // Validate and Register the FirstName value object
-        Result<FirstName> RegisterFirstNameResult = FirstName.Create(request.FirstName);
-        if (RegisterFirstNameResult.IsFailure)
+        // Validate and create the FirstName value object
+        Result<FirstName> createFirstNameResult = FirstName.Create(request.FirstName);
+        if (createFirstNameResult.IsFailure)
         {
             return Result.Failure<Guid>(
-                RegisterFirstNameResult.Error);
+                createFirstNameResult.Error);
         }
 
-        // Validate and Register the LastName value object
-        Result<LastName> RegisterLastNameResult = LastName.Create(request.LastName);
-        if (RegisterLastNameResult.IsFailure)
+        // Validate and create the LastName value object
+        Result<LastName> createLastNameResult = LastName.Create(request.LastName);
+        if (createLastNameResult.IsFailure)
         {
             return Result.Failure<Guid>(
-                RegisterFirstNameResult.Error);
+                createFirstNameResult.Error);
+        }
+
+        #endregion
+
+        #region Get Role
+
+        var role = await roleRepository.GetByIdAsync(Role.Registered.Id, cancellationToken);
+        if (role is null)
+        {
+            return Result.Failure<Guid>(
+                DomainErrors.Role.NotFound(Role.Registered.Id));
         }
 
         #endregion
@@ -74,8 +86,9 @@ internal sealed class RegisterUserCommandHandler(
             Guid.NewGuid(),
             emailResult.Value,
             passwordHash,
-            RegisterFirstNameResult.Value,
-            RegisterLastNameResult.Value);
+            createFirstNameResult.Value,
+            createLastNameResult.Value,
+            role);
 
         #endregion
 

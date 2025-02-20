@@ -1,5 +1,6 @@
 ﻿using BookManagement.Domain.Entities.Books;
 using BookManagement.Domain.Repositories.Books;
+using BookManagement.Domain.ValueObjects.Books;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookManagement.Persistence.Books.Repositories;
@@ -11,9 +12,11 @@ public class BookRepository(ApplicationDbContext context) : IBookRepository
         await context.Set<Book>().AddAsync(book, cancellationToken);
     }
 
-    public async Task<bool> ExistsByTitleAsync(string title, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByTitleAsync(
+        Title title, 
+        CancellationToken cancellationToken = default)
     {
-        return await context.Set<Book>().AnyAsync(b => b.Title.Value == title, cancellationToken);
+        return await context.Set<Book>().AnyAsync(b => b.Title == title, cancellationToken);
     }
 
     public async Task<IEnumerable<Book>> GetBooksAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)

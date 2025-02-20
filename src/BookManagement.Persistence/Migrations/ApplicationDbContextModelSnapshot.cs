@@ -17,12 +17,48 @@ namespace BookManagement.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BookManagement.Domain.Entities.Permission", b =>
+            modelBuilder.Entity("BookManagement.Domain.Entities.Books.Book", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PublicationYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ViewsCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("BookManagement.Domain.Entities.Users.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,10 +83,45 @@ namespace BookManagement.Persistence.Migrations
                         {
                             Id = 2,
                             Name = "UpdateUser"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "AddBook"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "AddBooksBulk"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "UpdateBook"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "SoftDeleteBook"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "SoftDeleteBooksBulk"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "GetBookDetails"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "GetBooksList"
                         });
                 });
 
-            modelBuilder.Entity("BookManagement.Domain.Entities.Role", b =>
+            modelBuilder.Entity("BookManagement.Domain.Entities.Users.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,7 +144,7 @@ namespace BookManagement.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookManagement.Domain.Entities.RolePermission", b =>
+            modelBuilder.Entity("BookManagement.Domain.Entities.Users.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -97,10 +168,45 @@ namespace BookManagement.Persistence.Migrations
                         {
                             RoleId = 1,
                             PermissionId = 2
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 3
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 4
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 5
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 6
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 7
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 8
+                        },
+                        new
+                        {
+                            RoleId = 1,
+                            PermissionId = 9
                         });
                 });
 
-            modelBuilder.Entity("BookManagement.Domain.Entities.User", b =>
+            modelBuilder.Entity("BookManagement.Domain.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -189,15 +295,15 @@ namespace BookManagement.Persistence.Migrations
                     b.ToTable("RoleUser");
                 });
 
-            modelBuilder.Entity("BookManagement.Domain.Entities.RolePermission", b =>
+            modelBuilder.Entity("BookManagement.Domain.Entities.Users.RolePermission", b =>
                 {
-                    b.HasOne("BookManagement.Domain.Entities.Permission", null)
+                    b.HasOne("BookManagement.Domain.Entities.Users.Permission", null)
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookManagement.Domain.Entities.Role", null)
+                    b.HasOne("BookManagement.Domain.Entities.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -206,13 +312,13 @@ namespace BookManagement.Persistence.Migrations
 
             modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.HasOne("BookManagement.Domain.Entities.Role", null)
+                    b.HasOne("BookManagement.Domain.Entities.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookManagement.Domain.Entities.User", null)
+                    b.HasOne("BookManagement.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)

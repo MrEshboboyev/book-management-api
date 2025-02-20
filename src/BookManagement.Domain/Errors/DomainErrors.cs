@@ -9,9 +9,9 @@ namespace BookManagement.Domain.Errors;
 public static class DomainErrors
 {
     #region User
-    
+
     #region Entities
-    
+
     public static class User
     {
         public static readonly Error EmailAlreadyInUse = new(
@@ -29,12 +29,27 @@ public static class DomainErrors
         public static readonly Error InvalidCredentials = new(
                "User.InvalidCredentials",
                "The provided credentials are invalid");
+
+        public static readonly Error InvalidRoleName = new(
+            "User.InvalidRoleName",
+            "The specified role is invalid.");
+
+        public static readonly Func<int, Error> RoleNotAssigned = roleId => new Error(
+            "User.RoleNotAssigned",
+            $"The specified role with ID {roleId} is not assigned to the user.");
+    }
+
+    public static class Role
+    {
+        public static readonly Func<int, Error> NotFound = id => new Error(
+            "Role.NotFound",
+            $"The role with the identifier {id} was not found.");
     }
 
     #endregion
-    
+
     #region Value Objects
-    
+
     public static class Email
     {
         public static readonly Error Empty = new(
@@ -54,7 +69,7 @@ public static class DomainErrors
             "LastName.TooLong",
             "FirstName name is too long");
     }
-    
+
     public static class LastName
     {
         public static readonly Error Empty = new(
@@ -95,7 +110,7 @@ public static class DomainErrors
     #endregion
 
     #region Value Objects
-    
+
     public static class Author
     {
         public static readonly Error Empty = new(

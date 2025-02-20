@@ -51,7 +51,7 @@ internal sealed class LoginCommandHandler(
         #region Generate token
 
         // Generate a JWT token for the authenticated user
-        var token = jwtProvider.Generate(user);
+        var token = await jwtProvider.GenerateAsync(user);
 
         #endregion
 
