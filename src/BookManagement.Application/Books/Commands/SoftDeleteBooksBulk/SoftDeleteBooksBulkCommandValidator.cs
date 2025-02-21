@@ -5,7 +5,7 @@ namespace BookManagement.Application.Books.Commands.SoftDeleteBooksBulk;
 /// <summary>
 /// Validator for SoftDeleteBooksBulkCommand.
 /// </summary>
-public class SoftDeleteBooksBulkCommandValidator : AbstractValidator<SoftDeleteBooksBulkCommand>
+internal class SoftDeleteBooksBulkCommandValidator : AbstractValidator<SoftDeleteBooksBulkCommand>
 {
     public SoftDeleteBooksBulkCommandValidator()
     {

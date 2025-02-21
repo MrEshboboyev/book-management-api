@@ -5,7 +5,7 @@ namespace BookManagement.Application.Books.Commands.UpdateBook;
 /// <summary>
 /// Validator for UpdateBookCommand.
 /// </summary>
-public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
+internal class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
 {
     public UpdateBookCommandValidator()
     {

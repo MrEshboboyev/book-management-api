@@ -6,7 +6,7 @@ namespace BookManagement.Application.Books.Commands.AddBooksBulk;
 /// <summary>
 /// Validator for AddBooksBulkCommand.
 /// </summary>
-public class AddBooksBulkCommandValidator : AbstractValidator<AddBooksBulkCommand>
+internal class AddBooksBulkCommandValidator : AbstractValidator<AddBooksBulkCommand>
 {
     public AddBooksBulkCommandValidator()
     {
