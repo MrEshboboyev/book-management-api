@@ -43,7 +43,8 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
         [FromBody] AddBooksBulkRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new AddBooksBulkCommand(request.Books);
+        var command = new AddBooksBulkCommand([.. request.Books.Select(
+            book => (book.Title, book.PublicationYear, book.AuthorName))]);
         var response = await Sender.Send(command, cancellationToken);
         return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
     }
