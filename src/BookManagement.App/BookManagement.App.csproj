@@ -2,29 +2,34 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
-		<PackageReference Include="Quartz.Extensions.Hosting"/>
-		<PackageReference Include="Scrutor"/>
-		<PackageReference Include="Serilog.AspNetCore"/>
-		<PackageReference Include="Serilog.Enrichers.Environment"/>
-		<PackageReference Include="Serilog.Enrichers.Process"/>
-		<PackageReference Include="Serilog.Enrichers.Thread"/>
-		<PackageReference Include="Serilog.Sinks.Seq"/>
-		<PackageReference Include="System.Net.Http"/>
-		<PackageReference Include="System.Security.Cryptography.Xml"/>
-		<PackageReference Include="System.Text.RegularExpressions"/>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+		<PackageReference Include="Quartz.Extensions.Hosting" />
+		<PackageReference Include="Scrutor" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Enrichers.Environment" />
+		<PackageReference Include="Serilog.Enrichers.Process" />
+		<PackageReference Include="Serilog.Enrichers.Thread" />
+		<PackageReference Include="Serilog.Sinks.Seq" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+		<PackageReference Include="System.Net.Http" />
+		<PackageReference Include="System.Security.Cryptography.Xml" />
+		<PackageReference Include="System.Text.RegularExpressions" />
 	</ItemGroup>
 
 	<ItemGroup>
