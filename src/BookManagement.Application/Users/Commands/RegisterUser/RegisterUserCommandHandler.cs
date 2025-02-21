@@ -33,6 +33,11 @@ internal sealed class RegisterUserCommandHandler(
         // Validate and Register the Email value object
         Result<Email> emailResult = Email.Create(request.Email);
 
+        if (emailResult.IsFailure)
+        {
+            return Result.Failure<Guid>(emailResult.Error);
+        }
+
         // Check if the email is already in use
         if (!await userRepository.IsEmailUniqueAsync(emailResult.Value, cancellationToken))
         {
@@ -56,7 +61,7 @@ internal sealed class RegisterUserCommandHandler(
         if (createLastNameResult.IsFailure)
         {
             return Result.Failure<Guid>(
-                createFirstNameResult.Error);
+                createLastNameResult.Error);
         }
 
         #endregion

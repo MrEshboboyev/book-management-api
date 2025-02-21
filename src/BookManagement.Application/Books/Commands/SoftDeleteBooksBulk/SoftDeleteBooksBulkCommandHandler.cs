@@ -6,7 +6,7 @@ using BookManagement.Domain.Errors;
 
 namespace BookManagement.Application.Books.Commands.SoftDeleteBooksBulk;
 
-internal sealed class SoftDeleteBookCommandHandler(
+internal sealed class SoftDeleteBooksBulkCommandHandler(
     IBookRepository bookRepository,
     IUnitOfWork unitOfWork) : ICommandHandler<SoftDeleteBooksBulkCommand>
 {
