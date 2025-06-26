@@ -1,4 +1,5 @@
 ﻿using BookManagement.Domain.Entities.Books;
+using BookManagement.Domain.Identity.Books;
 using BookManagement.Domain.Repositories.Books;
 using BookManagement.Domain.ValueObjects.Books;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ public class BookRepository(ApplicationDbContext context) : IBookRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Book> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Book> GetByIdAsync(BookId id, CancellationToken cancellationToken = default)
     {
         return await context.Set<Book>()
             .FirstOrDefaultAsync(b => b.Id == id && !b.IsDeleted, cancellationToken);

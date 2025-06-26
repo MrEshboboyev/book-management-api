@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using BookManagement.Domain.Entities.Books;
-using BookManagement.Persistence.Books.Constants;
+﻿using BookManagement.Domain.Entities.Books;
+using BookManagement.Domain.Identity.Books;
+using BookManagement.Domain.Primitives.Id;
 using BookManagement.Domain.ValueObjects.Books;
+using BookManagement.Persistence.Books.Constants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookManagement.Persistence.Books.Configurations;
 
@@ -13,6 +15,12 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.ToTable(BookTableNames.Books);
 
         builder.HasKey(b => b.Id);
+
+        builder.Property(x => x.Id)
+            .ValueGeneratedOnAdd() // <--- EF Core integer ID ni bazada generate qiladi
+            .HasConversion(
+                id => id.Value.InnerValue, // GlobalId.InnerValue → Guid
+                value => new BookId(new GlobalId(value))); // Guid → GlobalId → BookId
 
         builder.Property(b => b.Title)
             .HasConversion(
