@@ -1,6 +1,7 @@
-﻿using BookManagement.Presentation;
+﻿using BookManagement.Domain.Primitives.Id;
+using BookManagement.Presentation;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BookManagement.App.Configurations;
 
@@ -26,6 +27,7 @@ public class PresentationServiceInstaller : IServiceInstaller
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
+            options.SchemaFilter<StronglyTypedIdSchemaFilter>();
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
@@ -69,10 +71,22 @@ public class PresentationServiceInstaller : IServiceInstaller
                     Array.Empty<string>()
                 }
             });
-
-            // Include XML comments
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
+    }
+}
+
+public sealed class StronglyTypedIdSchemaFilter : ISchemaFilter
+{
+    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    {
+        var baseType = context.Type.BaseType;
+        if (baseType == null) return;
+
+        if (baseType.IsGenericType && baseType.GetGenericTypeDefinition() == typeof(StronglyTypedId<>))
+        {
+            schema.Type = "string";
+            schema.Format = "int"; // yoki "int"/"string" depending on type
+            schema.Properties?.Clear();
+        }
     }
 }
