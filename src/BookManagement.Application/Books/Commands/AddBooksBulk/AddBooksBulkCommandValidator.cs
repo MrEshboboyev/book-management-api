@@ -2,11 +2,10 @@
 
 namespace BookManagement.Application.Books.Commands.AddBooksBulk;
 
-
 /// <summary>
 /// Validator for AddBooksBulkCommand.
 /// </summary>
-internal class AddBooksBulkCommandValidator : AbstractValidator<AddBooksBulkCommand>
+internal sealed class AddBooksBulkCommandValidator : AbstractValidator<AddBooksBulkCommand>
 {
     public AddBooksBulkCommandValidator()
     {

@@ -11,7 +11,6 @@ internal class SoftDeleteBooksBulkCommandValidator : AbstractValidator<SoftDelet
     {
         RuleFor(x => x.BookIds)
             .NotEmpty().WithMessage("BookIds list cannot be empty.")
-            .Must(bookIds => bookIds.All(id => id != Guid.Empty))
-            .WithMessage("All BookIds must be valid GUIDs.");
+            .WithMessage("All BookIds must be valid.");
     }
 }
