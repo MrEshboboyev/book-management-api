@@ -1,11 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization"/>
     <PackageReference Include="Polly"/>
@@ -15,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookManagement.Application\BookManagement.Application.csproj" />
-    <ProjectReference Include="..\BookManagement.Domain\BookManagement.Domain.csproj" />
     <ProjectReference Include="..\BookManagement.Persistence\BookManagement.Persistence.csproj" />
   </ItemGroup>
 

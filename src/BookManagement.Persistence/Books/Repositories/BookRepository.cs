@@ -37,6 +37,7 @@ public class BookRepository(ApplicationDbContext context) : IBookRepository
 
     public async Task UpdateAsync(Book book, CancellationToken cancellationToken = default)
     {
+        await Task.Delay(10);
         context.Set<Book>().Update(book);
     }
 }
