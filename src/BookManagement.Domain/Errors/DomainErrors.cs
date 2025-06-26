@@ -1,4 +1,5 @@
-﻿using BookManagement.Domain.Shared;
+﻿using BookManagement.Domain.Identity.Books;
+using BookManagement.Domain.Shared;
 using BookManagement.Domain.ValueObjects.Books;
 
 namespace BookManagement.Domain.Errors;
@@ -98,9 +99,9 @@ public static class DomainErrors
             "Book.InvalidData",
             "The book data provided is invalid.");
 
-        public static readonly Func<Guid, Error> NotFound = id => new Error(
+        public static readonly Func<BookId, Error> NotFound = id => new Error(
             "Book.NotFound",
-            $"The book with the identifier {id} was not found.");
+            $"The book with the identifier {id.Value} was not found.");
 
         public static readonly Error AlreadyDeleted = new(
             "Book.AlreadyDeleted",

@@ -1,7 +1,8 @@
 ﻿using BookManagement.Domain.Events;
+using BookManagement.Domain.Identity.Books;
 
 namespace BookManagement.Domain.Events.Books;
 
 public sealed record BookUpdatedDomainEvent(
     Guid Id,
-    Guid BookId) : DomainEvent(Id);
+    BookId BookId) : DomainEvent(Id);

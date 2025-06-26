@@ -1,6 +1,8 @@
-﻿namespace BookManagement.Domain.Events.Books;
+﻿using BookManagement.Domain.Identity.Books;
+
+namespace BookManagement.Domain.Events.Books;
 
 public sealed record BookCreatedDomainEvent(
     Guid Id, 
-    Guid BookId, 
+    BookId BookId, 
     string Title) : DomainEvent(Id);

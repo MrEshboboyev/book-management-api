@@ -1,6 +1,8 @@
 ﻿using BookManagement.Domain.Errors;
 using BookManagement.Domain.Events.Books;
+using BookManagement.Domain.Identity.Books;
 using BookManagement.Domain.Primitives;
+using BookManagement.Domain.Primitives.Id;
 using BookManagement.Domain.Shared;
 using BookManagement.Domain.ValueObjects.Books;
 
@@ -9,12 +11,12 @@ namespace BookManagement.Domain.Entities.Books;
 /// <summary>
 /// Represents a book in the system.
 /// </summary>
-public sealed class Book : AggregateRoot, IAuditableEntity
+public sealed class Book : AggregateRoot<BookId>, IAuditableEntity
 {
     #region Constructors
 
     private Book(
-        Guid id,
+        BookId id,
         Title title,
         PublicationYear publicationYear,
         Author author) : base(id)
@@ -49,23 +51,22 @@ public sealed class Book : AggregateRoot, IAuditableEntity
     /// Creates a new book instance.
     /// </summary>
     public static Result<Book> Create(
-        Guid id,
         Title title,
         PublicationYear publicationYear,
-        Author author)
+        Author author,
+        BookId id = null) // id optional
     {
         if (title is null || publicationYear is null || author is null)
-        {
-            return Result.Failure<Book>(
-                DomainErrors.Book.InvalidData);
-        }
+            return Result.Failure<Book>(DomainErrors.Book.InvalidData);
 
-        var book = new Book(id, title, publicationYear, author);
+        var book = new Book(
+            id ?? new BookId(GlobalId.New()), // 0 bo'ladi, EF o'zi generate qiladi
+            title,
+            publicationYear,
+            author);
 
         book.RaiseDomainEvent(new BookCreatedDomainEvent(
-            Guid.NewGuid(),
-            book.Id,
-            title.Value));
+            Guid.NewGuid(), book.Id, title.Value));
 
         return Result.Success(book);
     }
