@@ -22,8 +22,8 @@ namespace BookManagement.App.Configurations
             // Configure the application's DbContext to use SQL Server with the
             // provided connection string
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(
-                    configuration.GetConnectionString("SqlServerDatabase")));
+                options => options.UseNpgsql(
+                    configuration.GetConnectionString("PostgresDatabase")));
 
             // use postgres
             // options => options.UseSqlServer(
