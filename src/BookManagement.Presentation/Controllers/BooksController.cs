@@ -6,6 +6,7 @@ using BookManagement.Application.Books.Commands.UpdateBook;
 using BookManagement.Application.Books.Queries.GetBookById;
 using BookManagement.Application.Books.Queries.GetBooks;
 using BookManagement.Domain.Enums.Users;
+using BookManagement.Domain.Identity.Books;
 using BookManagement.Infrastructure.Authentication;
 using BookManagement.Presentation.Abstractions;
 using BookManagement.Presentation.Contracts.Books;
@@ -23,6 +24,8 @@ namespace BookManagement.Presentation.Controllers;
 [Produces("application/json")]
 public sealed class BooksController(ISender sender) : ApiController(sender)
 {
+    #region Commands
+
     /// <summary>
     /// Adds a new book.
     /// </summary>
@@ -110,7 +113,7 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
     ///
     ///     PUT /api/books/{id}
     ///     {
-    ///        "id": "00000000-0000-0000-0000-000000000000",
+    ///        "id": "1",
     ///        "title": "Updated Book Title",
     ///        "publicationYear": 2023,
     ///        "authorName": "Updated Author Name"
@@ -118,23 +121,29 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
     ///
     /// </remarks>
     [HasPermission(Permission.UpdateBook)]
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateBook(
-        Guid id,
+        BookId id,
         [FromBody] UpdateBookRequest request,
         CancellationToken cancellationToken)
     {
-        if (id != request.Id)
-        {
+        if (!id.Equals(request.Id))
             return BadRequest("Mismatched book ID.");
-        }
 
-        var command = new UpdateBookCommand(request.Id, request.Title, request.PublicationYear, request.AuthorName);
+        var command = new UpdateBookCommand(
+            request.Id,
+            request.Title,
+            request.PublicationYear,
+            request.AuthorName);
+
         var response = await Sender.Send(command, cancellationToken);
-        return response.IsSuccess ? NoContent() : HandleFailure(response);
+        return response.IsSuccess
+            ? NoContent()
+            : HandleFailure(response);
     }
+
 
     /// <summary>
     /// Soft deletes a book.
@@ -151,11 +160,11 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
     ///
     /// </remarks>
     [HasPermission(Permission.SoftDeleteBook)]
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SoftDeleteBook(
-        Guid id,
+        BookId id,
         CancellationToken cancellationToken)
     {
         var command = new SoftDeleteBookCommand(id);
@@ -196,6 +205,10 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
         return response.IsSuccess ? NoContent() : HandleFailure(response);
     }
 
+    #endregion
+
+    #region Queries
+
     /// <summary>
     /// Retrieves the details of a book by its unique identifier.
     /// </summary>
@@ -211,10 +224,12 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
     ///
     /// </remarks>
     [HasPermission(Permission.GetBookDetails)]
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetBookById(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBookById(
+        BookId id, 
+        CancellationToken cancellationToken)
     {
         var query = new GetBookByIdQuery(id);
         var response = await Sender.Send(query, cancellationToken);
@@ -249,4 +264,6 @@ public sealed class BooksController(ISender sender) : ApiController(sender)
         var response = await Sender.Send(query, cancellationToken);
         return response.IsSuccess ? Ok(response.Value) : HandleFailure(response);
     }
+
+    #endregion
 }

@@ -5,6 +5,7 @@ using BookManagement.Domain.Repositories.Books;
 using BookManagement.Domain.Repositories;
 using Moq;
 using BookManagement.Application.UnitTests.Common;
+using BookManagement.Domain.Identity.Books;
 
 namespace BookManagement.Application.UnitTests.Books.Commands;
 
@@ -23,9 +24,8 @@ public class SoftDeleteBookCommandHandlerTests
     public async Task Handle_Should_ReturnSuccess_When_BookIsSoftDeleted()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
-        var book = Helpers.CreateTestBook(bookId,
-                                          "Sample Book",
+        var bookId = BookId.New();
+        var book = Helpers.CreateTestBook("Sample Book",
                                           2023,
                                           "John Doe");
 
@@ -48,7 +48,7 @@ public class SoftDeleteBookCommandHandlerTests
     public async Task Handle_Should_ReturnFailure_When_BookNotFound()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
+        var bookId = BookId.New();
 
         _bookRepositoryMock
             .Setup(repo => repo.GetByIdAsync(bookId, It.IsAny<CancellationToken>()))

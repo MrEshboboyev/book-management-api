@@ -6,6 +6,7 @@ using BookManagement.Domain.Repositories;
 using BookManagement.Domain.ValueObjects.Books;
 using Moq;
 using BookManagement.Application.UnitTests.Common;
+using BookManagement.Domain.Identity.Books;
 
 namespace BookManagement.Application.UnitTests.Books.Commands;
 
@@ -24,8 +25,8 @@ public class UpdateBookCommandHandlerTests
     public async Task Handle_Should_ReturnSuccess_When_BookIsUpdated()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
-        var book = Helpers.CreateTestBook(bookId, "Old Title", 2022, "Old Author");
+        var bookId = BookId.New();
+        var book = Helpers.CreateTestBook("Old Title", 2022, "Old Author");
 
         var command = new UpdateBookCommand(
             Id: bookId,

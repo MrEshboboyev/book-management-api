@@ -1,5 +1,6 @@
 ﻿using BookManagement.Domain.Entities.Books;
 using BookManagement.Domain.Entities.Users;
+using BookManagement.Domain.Identity.Books;
 using BookManagement.Domain.ValueObjects.Books;
 using BookManagement.Domain.ValueObjects.Users;
 
@@ -23,7 +24,7 @@ public static class Helpers
     }
 
     // Helper method to create a Book instance
-    public static Book CreateTestBook(Guid id,
+    public static Book CreateTestBook(
                                       string title,
                                       int publicationYear,
                                       string author)
@@ -32,6 +33,6 @@ public static class Helpers
         var authorObj = Author.Create(author).Value;
         var publicationYearObj = PublicationYear.Create(publicationYear).Value;
 
-        return Book.Create(id, titleObj, publicationYearObj, authorObj).Value;
+        return Book.Create(titleObj, publicationYearObj, authorObj).Value;
     }
 }
