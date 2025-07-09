@@ -23,13 +23,11 @@ public class MediatorActionFilter(ISender sender) : IAsyncActionFilter
 
         try
         {
-            // build the MediatR request from action args
             var request = CreateRequest(endpoint.RequestType, context.ActionArguments);
-
             var result = await sender.Send(request, context.HttpContext.RequestAborted);
 
-            // turn Result<T> or Result into IActionResult
-            context.Result = HandleResult(result, endpoint.IsCommand);
+            // Get the actual Result type via dynamic dispatch
+            context.Result = HandleResultDynamic(result);
         }
         catch (Exception ex)
         {
@@ -55,14 +53,12 @@ public class MediatorActionFilter(ISender sender) : IAsyncActionFilter
         {
             var param = parameters[i];
 
-            // Try exact parameter name match
             if (actionArguments.TryGetValue(param.Name, out var value))
             {
                 args[i] = value;
                 continue;
             }
 
-            // For complex objects, try to find matching properties
             var complexObject = actionArguments.Values
                 .FirstOrDefault(x => x?.GetType().IsClass == true && !(x is string));
 
@@ -76,40 +72,54 @@ public class MediatorActionFilter(ISender sender) : IAsyncActionFilter
                 }
             }
 
-            // Fallback to default value if not found
             args[i] = param.HasDefaultValue ? param.DefaultValue : null;
         }
 
         return Activator.CreateInstance(requestType, args);
     }
-    private IActionResult HandleResult(object result, bool isCommand)
+
+    #region Handle Result
+
+    private static IActionResult HandleResultDynamic(object result)
     {
         var resultType = result.GetType();
-        var isSuccess = (bool)resultType.GetProperty("IsSuccess").GetValue(result);
-        var isFailure = (bool)resultType.GetProperty("IsFailure").GetValue(result);
-        var valueProp = resultType.GetProperty("Value");
-        var value = valueProp?.GetValue(result);
 
-        if (isCommand)
+        // Check if it's a Result<T> or Result
+        if (resultType.IsGenericType && resultType.GetGenericTypeDefinition() == typeof(Result<>))
         {
-            return isFailure
-                ? HandleFailure(result)
-                : new OkObjectResult(value);
+            dynamic dynamicResult = result;
+            return HandleTypedResult(dynamicResult);
+        }
+        else if (result is Result nonGenericResult)
+        {
+            return HandleNonGenericResult(nonGenericResult);
         }
 
-        return isSuccess
-            ? new OkObjectResult(value)
+        throw new InvalidOperationException($"Unexpected result type: {resultType}");
+    }
+
+    private static IActionResult HandleTypedResult<T>(Result<T> result)
+    {
+        return result.IsSuccess
+            ? new OkObjectResult(result.Value)
             : HandleFailure(result);
     }
 
-    private IActionResult HandleFailure(object result)
+    private static IActionResult HandleNonGenericResult(Result result)
     {
-        var t = result.GetType();
-        var isSuccess = (bool)t.GetProperty("IsSuccess").GetValue(result);
-        if (isSuccess)
-            throw new InvalidOperationException();
+        return result.IsSuccess
+            ? new OkResult()
+            : HandleFailure(result);
+    }
 
-        var error = (Error)t.GetProperty("Error").GetValue(result);
+    #endregion
+
+    #region Handle Failure
+
+    private static IActionResult HandleFailure(Result result)
+    {
+        if (result.IsSuccess)
+            throw new InvalidOperationException("Cannot handle failure for successful result");
 
         if (result is IValidationResult validationResult)
         {
@@ -117,20 +127,17 @@ public class MediatorActionFilter(ISender sender) : IAsyncActionFilter
                 CreateProblemDetails(
                     "Validation Error",
                     StatusCodes.Status400BadRequest,
-                    error,
-                    validationResult.Errors.ToArray()));
+                    result.Error,
+                    [.. validationResult.Errors]));
         }
 
         return new BadRequestObjectResult(
             CreateProblemDetails(
                 "Bad Request",
                 StatusCodes.Status400BadRequest,
-                error));
+                result.Error));
     }
 
-    /// <summary>
-    /// Creates a ProblemDetails object for detailed error responses.
-    /// </summary>
     private static ProblemDetails CreateProblemDetails(
         string title,
         int status,
@@ -150,4 +157,6 @@ public class MediatorActionFilter(ISender sender) : IAsyncActionFilter
 
         return pd;
     }
+
+    #endregion
 }

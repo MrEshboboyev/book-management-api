@@ -165,5 +165,11 @@ public sealed class User : AggregateRoot, IAuditableEntity
 
     public bool IsInRole(Role role) => _roles.Contains(role);
 
+    public void UpdateName(string firstName, string lastName)
+    {
+        FirstName = FirstName.Create(firstName).Value;
+        LastName = LastName.Create(lastName).Value;
+    }
+
     #endregion
 }
