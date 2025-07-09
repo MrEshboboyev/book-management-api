@@ -1,6 +1,6 @@
 ﻿using BookManagement.Presentation;
+using BookManagement.Presentation.Abstractions;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace BookManagement.App.Configurations;
 
@@ -16,6 +16,8 @@ public class PresentationServiceInstaller : IServiceInstaller
     /// <param name="configuration">The application configuration.</param>
     public void Install(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddTransient<MediatorActionFilter>();
+
         // Add controllers and application part
         services
             .AddControllers()
@@ -70,9 +72,9 @@ public class PresentationServiceInstaller : IServiceInstaller
                 }
             });
 
-            // Include XML comments
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            //// Include XML comments
+            //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
     }
 }
