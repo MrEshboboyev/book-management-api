@@ -14,10 +14,9 @@ public sealed class Book : AggregateRoot, IAuditableEntity
     #region Constructors
 
     private Book(
-        Guid id,
         Title title,
         PublicationYear publicationYear,
-        Author author) : base(id)
+        Author author) : base()
     {
         Title = title;
         PublicationYear = publicationYear;
@@ -49,7 +48,6 @@ public sealed class Book : AggregateRoot, IAuditableEntity
     /// Creates a new book instance.
     /// </summary>
     public static Result<Book> Create(
-        Guid id,
         Title title,
         PublicationYear publicationYear,
         Author author)
@@ -60,7 +58,7 @@ public sealed class Book : AggregateRoot, IAuditableEntity
                 DomainErrors.Book.InvalidData);
         }
 
-        var book = new Book(id, title, publicationYear, author);
+        var book = new Book(title, publicationYear, author);
 
         book.RaiseDomainEvent(new BookCreatedDomainEvent(
             Guid.NewGuid(),

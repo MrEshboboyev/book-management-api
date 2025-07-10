@@ -24,17 +24,18 @@ public class UpdateBookCommandHandlerTests
     public async Task Handle_Should_ReturnSuccess_When_BookIsUpdated()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
-        var book = Helpers.CreateTestBook(bookId, "Old Title", 2022, "Old Author");
+        var book = Helpers.CreateTestBook("Old Title", 
+                                          2022, 
+                                          "Old Author");
 
         var command = new UpdateBookCommand(
-            Id: bookId,
+            Id: book.Id,
             Title: "New Title",
             PublicationYear: 2023,
             AuthorName: "New Author");
 
         _bookRepositoryMock
-            .Setup(repo => repo.GetByIdAsync(bookId, It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetByIdAsync(book.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(book);
 
         _bookRepositoryMock

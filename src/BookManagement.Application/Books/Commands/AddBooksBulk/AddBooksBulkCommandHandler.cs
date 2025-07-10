@@ -57,10 +57,10 @@ internal sealed class AddBooksBulkCommandHandler(
 
             #region Create new book
 
-            var bookResult = Book.Create(Guid.NewGuid(),
-                                   titleResult.Value,
-                                   publicationYearResult.Value,
-                                   authorResult.Value);
+            var bookResult = Book.Create(
+                titleResult.Value,
+                publicationYearResult.Value,
+                authorResult.Value);
 
             #endregion
 

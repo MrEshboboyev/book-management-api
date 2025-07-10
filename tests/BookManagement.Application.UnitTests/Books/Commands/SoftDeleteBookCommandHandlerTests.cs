@@ -23,17 +23,15 @@ public class SoftDeleteBookCommandHandlerTests
     public async Task Handle_Should_ReturnSuccess_When_BookIsSoftDeleted()
     {
         // Arrange
-        var bookId = Guid.NewGuid();
-        var book = Helpers.CreateTestBook(bookId,
-                                          "Sample Book",
+        var book = Helpers.CreateTestBook("Sample Book",
                                           2023,
                                           "John Doe");
 
         _bookRepositoryMock
-            .Setup(repo => repo.GetByIdAsync(bookId, It.IsAny<CancellationToken>()))
+            .Setup(repo => repo.GetByIdAsync(book.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(book);
 
-        var command = new SoftDeleteBookCommand(bookId);
+        var command = new SoftDeleteBookCommand(book.Id);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
