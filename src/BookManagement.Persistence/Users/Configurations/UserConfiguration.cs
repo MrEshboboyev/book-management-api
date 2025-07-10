@@ -34,5 +34,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         // Configure unique constraint on Email
         builder.HasIndex(x => x.Email).IsUnique();
+
+        builder.HasIndex(x => new { x.CreatedOnUtc, x.Id });
     }
+
 }

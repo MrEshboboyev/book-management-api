@@ -8,8 +8,7 @@ namespace BookManagement.Application.UnitTests.Common;
 public static class Helpers
 {
     // Helper method to create a User instance
-    public static User CreateTestUser(Guid id,
-                                      string email,
+    public static User CreateTestUser(string email,
                                       string passwordHash,
                                       string firstName,
                                       string lastName)
@@ -19,7 +18,7 @@ public static class Helpers
         var lastNameObj = LastName.Create(lastName).Value;
         var role = Role.Registered;
 
-        return User.Create(id, emailObj, passwordHash, firstNameObj, lastNameObj, role);
+        return User.Create(emailObj, passwordHash, firstNameObj, lastNameObj, role);
     }
 
     // Helper method to create a Book instance

@@ -57,7 +57,6 @@ public sealed class User : AggregateRoot, IAuditableEntity
     /// Creates a new user instance. 
     /// </summary>
     public static User Create(
-        Guid id,
         Email email,
         string passwordHash,
         FirstName firstName,
@@ -67,7 +66,7 @@ public sealed class User : AggregateRoot, IAuditableEntity
         #region Create new User
         
         var user = new User(
-            id,
+            Guid.CreateVersion7(),
             email,
             passwordHash,
             firstName,

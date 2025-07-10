@@ -39,12 +39,10 @@ public class LoginCommandHandlerTests
             Email: "user@example.com",
             Password: "securePassword");
 
-        var userId = Guid.NewGuid();
         var hashedPassword = "hashedPassword";
         var token = "generated-jwt-token";
 
         var user = Helpers.CreateTestUser(
-            id: userId,
             email: command.Email,
             passwordHash: hashedPassword,
             firstName: "John",
@@ -106,11 +104,9 @@ public class LoginCommandHandlerTests
             Email: "user@example.com",
             Password: "securePassword");
 
-        var userId = Guid.NewGuid();
         var hashedPassword = "hashedPassword";
 
         var user = Helpers.CreateTestUser(
-            id: userId,
             email: command.Email,
             passwordHash: hashedPassword,
             firstName: "John",

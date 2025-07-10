@@ -88,7 +88,6 @@ internal sealed class RegisterUserCommandHandler(
 
         // Register a new User entity with the provided details
         var user = User.Create(
-            Guid.NewGuid(),
             emailResult.Value,
             passwordHash,
             createFirstNameResult.Value,

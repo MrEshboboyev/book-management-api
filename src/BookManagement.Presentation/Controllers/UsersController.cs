@@ -18,10 +18,10 @@ namespace BookManagement.Presentation.Controllers;
 [ServiceFilter(typeof(MediatorActionFilter))]
 public sealed class UsersController : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("{userId:guid}")]
     [HasPermission(Permission.ReadUser)]
     [MediatorEndpoint(typeof(GetUserByIdQuery), typeof(UserResponse))]
-    public void Get() { }
+    public void Get(Guid userId) { }
 
     [HttpPut("{userId:guid}")]
     [HasPermission(Permission.UpdateUser)]
