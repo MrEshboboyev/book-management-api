@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using BookManagement.Domain.Entities.Books;
-using BookManagement.Persistence.Books.Constants;
+﻿using BookManagement.Domain.Entities.Books;
 using BookManagement.Domain.ValueObjects.Books;
-using BookManagement.Persistence.Generators;
+using BookManagement.Persistence.Books.Constants;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookManagement.Persistence.Books.Configurations;
 
@@ -13,9 +12,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
         builder.ToTable(BookTableNames.Books);
 
-        builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
-            .HasValueGenerator<SequentialGuidValueGenerator>();
+        builder.Property(x => x.Id);
 
         builder.Property(b => b.Title)
             .HasConversion(

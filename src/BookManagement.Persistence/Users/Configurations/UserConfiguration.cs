@@ -16,9 +16,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         // Map to the Users table
         builder.ToTable(UserTableNames.Users);
 
-        builder.Property(x => x.Id)
-            .HasDefaultValueSql("uuid_generate_v1mc()")
-            .ValueGeneratedOnAdd();
+        builder.Property(x => x.Id);
 
         // Configure property conversions and constraints
         builder
@@ -38,5 +36,4 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(x => new { x.CreatedOnUtc, x.Id });
     }
-
 }

@@ -1,33 +1,27 @@
-﻿using BookManagement.Persistence.Interceptors;
-using BookManagement.Persistence;
+﻿using BookManagement.Persistence;
+using BookManagement.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookManagement.App.Configurations
+namespace BookManagement.App.Configurations;
+
+public class PersistenceServiceInstaller : IServiceInstaller
 {
-    /// <summary>
-    /// Installs persistence services and configuration.
-    /// </summary>
-    public class PersistenceServiceInstaller : IServiceInstaller
+    public void Install(IServiceCollection services, IConfiguration configuration)
     {
-        /// <summary>
-        /// Configures the persistence services.
-        /// </summary>
-        /// <param name="services">The collection of services to configure.</param>
-        /// <param name="configuration">The application configuration.</param>
-        public void Install(IServiceCollection services, IConfiguration configuration)
+        // Add the domain events to outbox messages interceptor as a singleton
+        services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
+
+        services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+        services.AddSingleton<GenerateIdInterceptor>();
+
+        services.AddDbContext<ApplicationDbContext>((sp, optionsBuilder) =>
         {
-            // Add the domain events to outbox messages interceptor as a singleton
-            services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
-
-            // Configure the application's DbContext to use SQL Server with the
-            // provided connection string
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseNpgsql(
-                    configuration.GetConnectionString("PostgresDatabase")));
-
-            // use postgres
-            // options => options.UseSqlServer(
-            //  configuration.GetConnectionString("PostgresDatabase")));
-        }
+            optionsBuilder
+                .UseNpgsql(configuration.GetConnectionString("PostgresDatabase"))
+                .AddInterceptors(
+                    sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>(),
+                    sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>(),
+                    sp.GetRequiredService<GenerateIdInterceptor>());
+        });
     }
 }
