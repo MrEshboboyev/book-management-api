@@ -16,8 +16,9 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         // Map to the Users table
         builder.ToTable(UserTableNames.Users);
 
-        // Configure the primary key
-        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasDefaultValueSql("uuid_generate_v1mc()")
+            .ValueGeneratedOnAdd();
 
         // Configure property conversions and constraints
         builder

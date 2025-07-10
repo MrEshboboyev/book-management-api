@@ -20,16 +20,14 @@ public sealed class User : AggregateRoot, IAuditableEntity
     #region Constructors 
 
     private User(
-        Guid id,
         Email email,
         string passwordHash,
         FirstName firstName,
-        LastName lastName): base(id)
+        LastName lastName): base()
     {
         Email = email;
         PasswordHash = passwordHash;
         FirstName = firstName;
-        LastName = lastName;
         LastName = lastName;
     }
 
@@ -66,7 +64,6 @@ public sealed class User : AggregateRoot, IAuditableEntity
         #region Create new User
         
         var user = new User(
-            Guid.CreateVersion7(),
             email,
             passwordHash,
             firstName,
