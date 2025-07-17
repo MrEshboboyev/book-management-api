@@ -19,6 +19,10 @@ public sealed class FirstName : ValueObject
         Value = value;
     }
     
+    private FirstName()
+    {
+    }
+    
     #endregion
     
     #region Properties
@@ -48,11 +52,19 @@ public sealed class FirstName : ValueObject
         
         return Result.Success(new FirstName(firstName));
     }
-    
+
+    #endregion
+
+    #region Operators
+
+    public static implicit operator string(FirstName firstName) => firstName?.Value;
+
+    public override string ToString() => Value;
+
     #endregion
 
     #region Overrides
-    
+
     /// <summary> 
     /// Returns the atomic values of the FirstName object for equality checks. 
     /// </summary>

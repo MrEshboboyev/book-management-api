@@ -18,21 +18,35 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Id);
 
-        // Configure property conversions and constraints
-        builder
-            .Property(x => x.Email)
-            .HasConversion(x => x.Value, v => Email.Create(v).Value);
-        builder
-            .Property(x => x.FirstName)
-            .HasConversion(x => x.Value, v => FirstName.Create(v).Value)
-            .HasMaxLength(FirstName.MaxLength);
-        builder
-            .Property(x => x.LastName)
-            .HasConversion(x => x.Value, v => LastName.Create(v).Value)
-            .HasMaxLength(LastName.MaxLength);
+        // Email Complex Property konfiguratsiyasi
+        builder.ComplexProperty(u => u.Email, emailBuilder =>
+        {
+            emailBuilder.Property(e => e.Value)
+                        .HasColumnName("Email")
+                        .IsRequired() // Email.Value majburiy, bu Email Value Objectining o'zini ham majburiy qiladi.
+                        .HasMaxLength(Email.MaxLength);
+        });
 
-        // Configure unique constraint on Email
-        builder.HasIndex(x => x.Email).IsUnique();
+        // FirstName Complex Property konfiguratsiyasi
+        builder.ComplexProperty(u => u.FirstName, firstNameBuilder =>
+        {
+            firstNameBuilder.Property(f => f.Value)
+                            .HasColumnName("FirstName")
+                            .IsRequired()
+                            .HasMaxLength(FirstName.MaxLength);
+        });
+
+        // LastName Complex Property konfiguratsiyasi
+        builder.ComplexProperty(u => u.LastName, lastNameBuilder =>
+        {
+            lastNameBuilder.Property(l => l.Value)
+                            .HasColumnName("LastName")
+                            .IsRequired()
+                            .HasMaxLength(LastName.MaxLength);
+        });
+
+        //// Configure unique constraint on Email
+        //builder.HasIndex(x => x.Email).IsUnique();
 
         builder.HasIndex(x => new { x.CreatedOnUtc, x.Id });
     }

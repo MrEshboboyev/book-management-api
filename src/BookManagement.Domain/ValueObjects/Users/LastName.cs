@@ -22,6 +22,10 @@ public sealed class LastName : ValueObject
         Value = value;
     }
     
+    private LastName()
+    {
+    }
+    
     #endregion
     
     #region Properties
@@ -50,9 +54,17 @@ public sealed class LastName : ValueObject
         
         return Result.Success(new LastName(lastName));
     }
-    
+
     #endregion
-    
+
+    #region Operators
+
+    public static implicit operator string(LastName lastName) => lastName?.Value;
+
+    public override string ToString() => Value;
+
+    #endregion
+
     #region Overrides
 
     /// <summary> 
