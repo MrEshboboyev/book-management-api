@@ -1,10 +1,10 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
-using BookManagement.Application.Books.Queries.Common;
-using BookManagement.Application.Books.Queries.Common.Factories;
+﻿using BookManagement.Application.Books.Queries.Common.Factories;
 using BookManagement.Domain.Repositories.Books;
 using BookManagement.Domain.Errors;
 using BookManagement.Domain.Shared;
 using BookManagement.Domain.Repositories;
+using BookManagement.Application.Common.Messaging;
+using BookManagement.Application.Books.Queries.Common.Responses;
 
 namespace BookManagement.Application.Books.Queries.GetBookById;
 

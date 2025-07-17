@@ -1,4 +1,4 @@
-namespace BookManagement.Application.Books.Queries.Common;
+namespace BookManagement.Application.Books.Queries.Common.Responses;
 
 /// <summary>
 /// Represents the response model for a book title.

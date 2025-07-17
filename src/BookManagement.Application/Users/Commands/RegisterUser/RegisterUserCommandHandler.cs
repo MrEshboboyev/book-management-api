@@ -1,11 +1,11 @@
-﻿using BookManagement.Application.Abstractions.Security;
-using BookManagement.Application.Abstractions.Messaging;
-using BookManagement.Domain.Errors;
+﻿using BookManagement.Domain.Errors;
 using BookManagement.Domain.Repositories;
 using BookManagement.Domain.Shared;
 using BookManagement.Domain.Entities.Users;
 using BookManagement.Domain.Repositories.Users;
 using BookManagement.Domain.ValueObjects.Users;
+using BookManagement.Application.Common.Messaging;
+using BookManagement.Application.Common.Security;
 
 namespace BookManagement.Application.Users.Commands.RegisterUser;
 

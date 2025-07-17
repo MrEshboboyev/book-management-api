@@ -1,5 +1,7 @@
-﻿using BookManagement.Application.Users.Commands.Update;
+﻿using BookManagement.Application.Common.Pagination;
+using BookManagement.Application.Users.Commands.Update;
 using BookManagement.Application.Users.Queries.Common.Responses;
+using BookManagement.Application.Users.Queries.GetAllUsers;
 using BookManagement.Application.Users.Queries.GetUserById;
 using BookManagement.Domain.Enums.Users;
 using BookManagement.Infrastructure.Authentication;
@@ -18,6 +20,11 @@ namespace BookManagement.Presentation.Controllers;
 [ServiceFilter(typeof(MediatorActionFilter))]
 public sealed class UsersController : ControllerBase
 {
+    [HttpGet]
+    //[HasPermission(Permission.ReadUser)]
+    [MediatorEndpoint(typeof(GetAllUsersQuery), typeof(PaginatedList<UserResponse>))]
+    public void GetAllUsers([FromQuery] GetAllUsersQuery query) { }
+
     [HttpGet("{userId:guid}")]
     [HasPermission(Permission.ReadUser)]
     [MediatorEndpoint(typeof(GetUserByIdQuery), typeof(UserResponse))]

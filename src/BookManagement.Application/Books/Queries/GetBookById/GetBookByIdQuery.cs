@@ -1,5 +1,5 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
-using BookManagement.Application.Books.Queries.Common;
+﻿using BookManagement.Application.Books.Queries.Common.Responses;
+using BookManagement.Application.Common.Messaging;
 
 namespace BookManagement.Application.Books.Queries.GetBookById;
 

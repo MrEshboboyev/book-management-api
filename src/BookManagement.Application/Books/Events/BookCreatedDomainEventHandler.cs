@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
+﻿using BookManagement.Application.Common.Messaging;
 using BookManagement.Domain.Events.Books;
 
 namespace BookManagement.Application.Books.Events;

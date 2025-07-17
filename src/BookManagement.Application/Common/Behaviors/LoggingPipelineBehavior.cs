@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace BookManagement.Application.Behaviors;
+namespace BookManagement.Application.Common.Behaviors;
 
 /// <summary> 
 /// Pipeline behavior that logs the beginning, completion, and any failures of a request. 

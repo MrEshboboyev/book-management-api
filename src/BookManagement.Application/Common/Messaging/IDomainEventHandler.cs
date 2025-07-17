@@ -1,7 +1,7 @@
 ﻿using BookManagement.Domain.Primitives;
 using MediatR;
 
-namespace BookManagement.Application.Abstractions.Messaging;
+namespace BookManagement.Application.Common.Messaging;
 
 /// <summary> 
 /// Handles domain events. 

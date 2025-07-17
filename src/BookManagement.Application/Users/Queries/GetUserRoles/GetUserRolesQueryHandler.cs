@@ -1,4 +1,4 @@
-using BookManagement.Application.Abstractions.Messaging;
+using BookManagement.Application.Common.Messaging;
 using BookManagement.Application.Users.Queries.Common.Factories;
 using BookManagement.Application.Users.Queries.Common.Responses;
 using BookManagement.Domain.Errors;

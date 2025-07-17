@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Abstractions.Security;
+﻿using BookManagement.Application.Common.Security;
 using System.Security.Cryptography;
 
 namespace BookManagement.Infrastructure.Authentication;

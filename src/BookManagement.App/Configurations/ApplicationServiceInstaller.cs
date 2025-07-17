@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using BookManagement.Application;
-using BookManagement.Application.Behaviors;
 using BookManagement.Infrastructure.Idempotence;
 using MediatR;
+using BookManagement.Application.Common.Behaviors;
 
 namespace BookManagement.App.Configurations;
 

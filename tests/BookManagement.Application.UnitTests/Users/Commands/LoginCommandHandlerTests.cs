@@ -1,4 +1,4 @@
-using BookManagement.Application.Abstractions.Security;
+using BookManagement.Application.Common.Security;
 using BookManagement.Application.UnitTests.Common;
 using BookManagement.Application.Users.Commands.Login;
 using BookManagement.Domain.Entities.Users;

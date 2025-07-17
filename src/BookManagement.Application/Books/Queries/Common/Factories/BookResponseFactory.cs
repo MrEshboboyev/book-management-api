@@ -1,3 +1,4 @@
+using BookManagement.Application.Books.Queries.Common.Responses;
 using BookManagement.Domain.Entities.Books;
 
 namespace BookManagement.Application.Books.Queries.Common.Factories;

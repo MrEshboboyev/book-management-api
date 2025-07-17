@@ -3,7 +3,7 @@ using BookManagement.Application.Books.Commands.AddBooksBulk;
 using BookManagement.Application.Books.Commands.SoftDeleteBook;
 using BookManagement.Application.Books.Commands.SoftDeleteBooksBulk;
 using BookManagement.Application.Books.Commands.UpdateBook;
-using BookManagement.Application.Books.Queries.Common;
+using BookManagement.Application.Books.Queries.Common.Responses;
 using BookManagement.Application.Books.Queries.GetBookById;
 using BookManagement.Application.Books.Queries.GetBooks;
 using BookManagement.Domain.Enums.Users;

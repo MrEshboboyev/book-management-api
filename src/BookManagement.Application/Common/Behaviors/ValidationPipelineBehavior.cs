@@ -2,7 +2,7 @@
 using BookManagement.Domain.Shared;
 using MediatR;
 
-namespace BookManagement.Application.Behaviors;
+namespace BookManagement.Application.Common.Behaviors;
 
 /// <summary> 
 /// Implements a validation behavior in the MediatR pipeline. 

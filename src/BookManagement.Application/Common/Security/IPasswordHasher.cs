@@ -1,4 +1,4 @@
-﻿namespace BookManagement.Application.Abstractions.Security;
+﻿namespace BookManagement.Application.Common.Security;
 
 /// <summary>
 /// Provides functionality for hashing passwords and verifying password hashes.

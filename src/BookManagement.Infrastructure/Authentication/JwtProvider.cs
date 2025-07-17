@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Abstractions.Security;
+﻿using BookManagement.Application.Common.Security;
 using BookManagement.Domain.Entities.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
+﻿using BookManagement.Application.Common.Messaging;
 using BookManagement.Domain.Events.Users;
 using BookManagement.Domain.Repositories.Users;
 

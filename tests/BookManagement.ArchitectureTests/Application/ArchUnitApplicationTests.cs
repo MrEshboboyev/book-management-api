@@ -1,7 +1,7 @@
 ﻿using ArchUnitNET.Fluent;
 using ArchUnitNET.xUnit;
 using FluentValidation;
-using BookManagement.Application.Abstractions.Messaging;
+using BookManagement.Application.Common.Messaging;
 
 namespace BookManagement.ArchitectureTests.Application;
 

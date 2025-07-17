@@ -1,7 +1,7 @@
 ﻿using BookManagement.Domain.Shared;
 using MediatR;
 
-namespace BookManagement.Application.Abstractions.Messaging;
+namespace BookManagement.Application.Common.Messaging;
 
 /// <summary>
 /// Represents a command in the application.

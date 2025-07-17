@@ -1,10 +1,10 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
-using BookManagement.Domain.Entities.Books;
+﻿using BookManagement.Domain.Entities.Books;
 using BookManagement.Domain.Repositories.Books;
 using BookManagement.Domain.Errors;
 using BookManagement.Domain.Shared;
 using BookManagement.Domain.Repositories;
 using BookManagement.Domain.ValueObjects.Books;
+using BookManagement.Application.Common.Messaging;
 
 namespace BookManagement.Application.Books.Commands.AddBook;
 

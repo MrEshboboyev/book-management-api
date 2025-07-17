@@ -1,4 +1,4 @@
-using BookManagement.Application.Abstractions.Security;
+using BookManagement.Application.Common.Security;
 using BookManagement.Application.Users.Commands.RegisterUser;
 using BookManagement.Domain.Entities.Users;
 using BookManagement.Domain.Errors;

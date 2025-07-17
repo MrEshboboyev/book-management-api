@@ -1,4 +1,4 @@
-﻿using BookManagement.Application.Abstractions.Messaging;
+﻿using BookManagement.Application.Common.Messaging;
 using BookManagement.Domain.Primitives;
 using BookManagement.Persistence;
 using BookManagement.Persistence.Outbox;

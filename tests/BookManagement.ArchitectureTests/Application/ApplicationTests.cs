@@ -1,6 +1,6 @@
 ﻿using BookManagement.ArchitectureTests;
 using FluentValidation;
-using BookManagement.Application.Abstractions.Messaging;
+using BookManagement.Application.Common.Messaging;
 
 namespace BookManagement.ArchitectureTests.Application;
 

@@ -1,6 +1,6 @@
 ﻿using BookManagement.Domain.Entities.Users;
 
-namespace BookManagement.Application.Abstractions.Security;
+namespace BookManagement.Application.Common.Security;
 
 /// <summary>
 /// Provides functionality for generating JSON Web Tokens (JWT) for authenticated users.
