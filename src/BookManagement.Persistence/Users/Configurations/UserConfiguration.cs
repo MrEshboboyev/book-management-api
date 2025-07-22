@@ -17,36 +17,35 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable(UserTableNames.Users);
 
         builder.Property(x => x.Id);
+        // Email as simple converted property
+        builder.Property(u => u.Email)
+            .HasConversion(
+                email => email.Value,
+                value => Email.Create(value).Value)
+            .HasColumnName("Email")
+            .IsRequired()
+            .HasMaxLength(Email.MaxLength);
 
-        // Email Complex Property konfiguratsiyasi
-        builder.ComplexProperty(u => u.Email, emailBuilder =>
-        {
-            emailBuilder.Property(e => e.Value)
-                        .HasColumnName("Email")
-                        .IsRequired() // Email.Value majburiy, bu Email Value Objectining o'zini ham majburiy qiladi.
-                        .HasMaxLength(Email.MaxLength);
-        });
+        // FirstName as simple converted property
+        builder.Property(u => u.FirstName)
+            .HasConversion(
+                fn => fn.Value,
+                value => FirstName.Create(value).Value)
+            .HasColumnName("FirstName")
+            .IsRequired()
+            .HasMaxLength(FirstName.MaxLength);
 
-        // FirstName Complex Property konfiguratsiyasi
-        builder.ComplexProperty(u => u.FirstName, firstNameBuilder =>
-        {
-            firstNameBuilder.Property(f => f.Value)
-                            .HasColumnName("FirstName")
-                            .IsRequired()
-                            .HasMaxLength(FirstName.MaxLength);
-        });
+        // LastName as simple converted property
+        builder.Property(u => u.LastName)
+            .HasConversion(
+                ln => ln.Value,
+                value => LastName.Create(value).Value)
+            .HasColumnName("LastName")
+            .IsRequired()
+            .HasMaxLength(LastName.MaxLength);
 
-        // LastName Complex Property konfiguratsiyasi
-        builder.ComplexProperty(u => u.LastName, lastNameBuilder =>
-        {
-            lastNameBuilder.Property(l => l.Value)
-                            .HasColumnName("LastName")
-                            .IsRequired()
-                            .HasMaxLength(LastName.MaxLength);
-        });
-
-        //// Configure unique constraint on Email
-        //builder.HasIndex(x => x.Email).IsUnique();
+        // optional: unique index on email
+        builder.HasIndex(u => u.Email).IsUnique();
 
         builder.HasIndex(x => new { x.CreatedOnUtc, x.Id });
     }

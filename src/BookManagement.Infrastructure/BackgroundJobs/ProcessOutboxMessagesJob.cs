@@ -13,23 +13,14 @@ namespace BookManagement.Infrastructure.BackgroundJobs;
 /// Background job for processing outbox messages. This job retrieves unprocessed outbox messages, 
 /// deserializes the domain events, publishes them, and marks the messages as processed. 
 /// </summary>
+/// <remarks> 
+/// Initializes a new instance of the <see cref="ProcessOutboxMessagesJob"/> class. 
+/// </remarks> 
+/// <param name="dbContext">The application database context.</param> 
+/// <param name="publisher">The publisher for domain events.</param>
 [DisallowConcurrentExecution]
-public class ProcessOutboxMessagesJob : IJob
+public class ProcessOutboxMessagesJob(ApplicationDbContext dbContext, IPublisher publisher) : IJob
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly IPublisher _publisher;
-
-    /// <summary> 
-    /// Initializes a new instance of the <see cref="ProcessOutboxMessagesJob"/> class. 
-    /// </summary> 
-    /// <param name="dbContext">The application database context.</param> 
-    /// <param name="publisher">The publisher for domain events.</param>
-    public ProcessOutboxMessagesJob(ApplicationDbContext dbContext, IPublisher publisher)
-    {
-        _dbContext = dbContext;
-        _publisher = publisher;
-    }
-
     /// <summary> 
     /// Executes the job to process outbox messages. 
     /// </summary> 
@@ -39,7 +30,7 @@ public class ProcessOutboxMessagesJob : IJob
         #region Get unprocessed messages
         
         // Retrieve unprocessed outbox messages
-        var messages = await _dbContext
+        var messages = await dbContext
             .Set<OutboxMessage>()
             .Where(m => m.ProcessedOnUtc == null)
             .Take(20)
@@ -73,7 +64,7 @@ public class ProcessOutboxMessagesJob : IJob
 
             // Execute the publish operation with retry policy
             var result = await policy.ExecuteAndCaptureAsync(() =>
-                _publisher.Publish(domainEvent, context.CancellationToken));
+                publisher.Publish(domainEvent, context.CancellationToken));
 
             // Record any errors that occurred during publishing
             outboxMessage.Error = result.FinalException?.ToString();
@@ -85,6 +76,6 @@ public class ProcessOutboxMessagesJob : IJob
         #endregion
 
         // Save changes to the database
-        await _dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 }
