@@ -14,8 +14,5 @@ public class UserMappingRegister : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<User, UserResponse>();
-            //.Map(dest => dest.Email, src => src.Email.Value)
-            //.Map(dest => dest.FirstName, src => src.FirstName.Value)
-            //.Map(dest => dest.LastName, src => src.LastName.Value);
     }
 }
