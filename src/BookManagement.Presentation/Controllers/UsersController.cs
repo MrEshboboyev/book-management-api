@@ -3,6 +3,7 @@ using BookManagement.Application.Users.Commands.Update;
 using BookManagement.Application.Users.Queries.Common.Responses;
 using BookManagement.Application.Users.Queries.GetAllUsers;
 using BookManagement.Application.Users.Queries.GetUserById;
+using BookManagement.Application.Users.Queries.GetUserWithRolesById;
 using BookManagement.Domain.Enums.Users;
 using BookManagement.Infrastructure.Authentication;
 using BookManagement.Presentation.Abstractions;
@@ -29,6 +30,11 @@ public sealed class UsersController : ControllerBase
     [HasPermission(Permission.ReadUser)]
     [MediatorEndpoint(typeof(GetUserByIdQuery), typeof(UserResponse))]
     public void Get(Guid userId) { }
+
+    [HttpGet("{userId:guid}/with-roles")]
+    [HasPermission(Permission.ReadUser)]
+    [MediatorEndpoint(typeof(GetUserWithRolesByIdQuery), typeof(UserWithRolesResponse))]
+    public void GetUserWithRolesById(Guid userId) { }
 
     [HttpPut("{userId:guid}")]
     [HasPermission(Permission.UpdateUser)]

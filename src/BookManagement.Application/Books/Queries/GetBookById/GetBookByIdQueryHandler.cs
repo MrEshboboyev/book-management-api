@@ -10,7 +10,8 @@ namespace BookManagement.Application.Books.Queries.GetBookById;
 
 internal sealed class GetBookByIdQueryHandler(
     IBookRepository bookRepository,
-    IUnitOfWork unitOfWork) : IQueryHandler<GetBookByIdQuery, BookResponse>
+    IUnitOfWork unitOfWork
+) : IQueryHandler<GetBookByIdQuery, BookResponse>
 {
     public async Task<Result<BookResponse>> Handle(
         GetBookByIdQuery request, 
